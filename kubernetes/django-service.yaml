@@ -5,7 +5,7 @@ metadata:
   labels:
     app.kubernetes.io/name: django
 spec:
-  type: NodePort
+  type: ClusterIP
   selector:
     app.kubernetes.io/name: django
   ports:

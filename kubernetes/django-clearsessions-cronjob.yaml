@@ -2,13 +2,15 @@ apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: django-clearsessions
-  labels:
-    app.kubernetes.io/name: django-clearsessions
 spec:
   schedule: "0 3 * * *"
+  startingDeadlineSeconds: 3600
   concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 1
+  failedJobsHistoryLimit: 1
   jobTemplate:
     spec:
+      ttlSecondsAfterFinished: 300
       backoffLimit: 1
       template:
         spec:

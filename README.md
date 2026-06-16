@@ -76,6 +76,64 @@ $ docker compose build web
 
 `DATABASE_URL` -- адрес для подключения к базе данных PostgreSQL. Другие СУБД сайт не поддерживает. [Формат записи](https://github.com/jacobian/dj-database-url#url-schema).
 
+## Как задеплоить код в dev окружение YC Sirius
+
+Dev окружение в Yandex Cloud уже подготовлено Девманом. Для текущего
+окружения используйте namespace:
+
+```shell
+edu-ваш-namespace
+```
+
+Перед деплоем проверьте, что `kubectl` подключён к нужному кластеру:
+
+```shell
+$ kubectl config current-context
+yc-sirius-dev
+```
+
+Рабочие манифесты тестового Nginx лежат в каталоге
+`deploy/environments/yc-sirius-dev/kubernetes/`.
+
+Примените ConfigMap, Service и Deployment:
+
+```shell
+$ kubectl apply -f deploy/environments/yc-sirius-dev/kubernetes/main-nginx-configmap.yaml
+$ kubectl apply -f deploy/environments/yc-sirius-dev/kubernetes/main-nginx-service.yaml
+$ kubectl apply -f deploy/environments/yc-sirius-dev/kubernetes/main-nginx-deployment.yaml
+```
+
+Проверьте, что Deployment успешно обновился:
+
+```shell
+$ kubectl rollout status deployment/main-nginx -n edu-ваш-namespace
+```
+
+Проверьте ресурсы в namespace:
+
+```shell
+$ kubectl get pods,svc,deploy,configmap -n edu-ваш-namespace
+```
+
+Проверьте сайт по HTTPS:
+
+```shell
+$ curl -I https://edu-ваш-namespace.yc-sirius-dev.pelid.team/
+```
+
+Если открыть сайт по HTTP, Application Load Balancer должен перенаправить
+запрос на HTTPS:
+
+```shell
+$ curl -I http://edu-ваш-namespace.yc-sirius-dev.pelid.team/
+```
+
+Свежие HTTP-запросы можно увидеть в логах Nginx:
+
+```shell
+$ kubectl logs deployment/main-nginx -n edu-ваш-namespace --tail=30
+```
+
 ## Как развернуть сайт в Minikube на MacOs
 
 Для локального Kubernetes-развёртывания понадобятся Docker Desktop, Minikube, kubectl и Helm.

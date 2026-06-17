@@ -1,0 +1,46 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: django-clearsessions
+  namespace: edu-aleksandr-babynin
+  labels:
+    app.kubernetes.io/name: django-clearsessions
+    app.kubernetes.io/part-of: django-site
+spec:
+  schedule: "0 3 * * *"
+  startingDeadlineSeconds: 3600
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 1
+  failedJobsHistoryLimit: 1
+  jobTemplate:
+    spec:
+      ttlSecondsAfterFinished: 300
+      backoffLimit: 1
+      template:
+        metadata:
+          labels:
+            app.kubernetes.io/name: django-clearsessions
+            app.kubernetes.io/part-of: django-site
+        spec:
+          restartPolicy: Never
+          containers:
+            - name: django
+              image: aleksandrbabynin/k8s-test-django:ff98ae134ac7494780c2030e27cc2ed4832a3a5c
+              imagePullPolicy: IfNotPresent
+              command: ["./manage.py"]
+              args: ["clearsessions"]
+              envFrom:
+                - secretRef:
+                    name: django
+              volumeMounts:
+                - name: postgres-root-cert
+                  mountPath: /etc/postgresql
+                  readOnly: true
+          volumes:
+            - name: postgres-root-cert
+              secret:
+                secretName: postgres-root-cert
+                defaultMode: 0444
+                items:
+                  - key: root.crt
+                    path: root.crt

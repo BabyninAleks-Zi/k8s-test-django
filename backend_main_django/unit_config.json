@@ -36,7 +36,7 @@
             "path":"/webapp/src/",
             "module":"webapp.wsgi",
             "environment": {
-                "DJANGO_SETTINGS_MODULE": "webapp.settings",
+                "DJANGO_SETTINGS_MODULE": "webapp.settings"
             }
         }
     }

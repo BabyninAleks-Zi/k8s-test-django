@@ -76,10 +76,15 @@ $ docker compose build web
 
 `DATABASE_URL` -- адрес для подключения к базе данных PostgreSQL. Другие СУБД сайт не поддерживает. [Формат записи](https://github.com/jacobian/dj-database-url#url-schema).
 
-## Деплой в dev окружение YC Sirius
+## Деплой в облако
 
-Инструкции для dev окружения в Yandex Cloud вынесены в
-[`deploy/environments/yc-sirius-dev/DEPLOY.md`](deploy/environments/yc-sirius-dev/DEPLOY.md).
+Этот README описывает локальную разработку и общие настройки приложения.
+
+Актуальные инструкции по деплою в dev окружение Yandex Cloud, ссылки на
+выделенные облачные ресурсы и адрес работающей версии сайта находятся в
+отдельном документе:
+
+[`deploy/environments/yc-sirius-dev/DEPLOY.md`](deploy/environments/yc-sirius-dev/DEPLOY.md)
 
 ## Как развернуть сайт в Minikube на MacOs
 

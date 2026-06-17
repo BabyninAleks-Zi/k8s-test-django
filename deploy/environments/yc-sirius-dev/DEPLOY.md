@@ -1,5 +1,19 @@
 # YC Sirius Dev Deploy
 
+## Рабочая версия и ресурсы
+
+Сайт в dev окружении YC Sirius доступен по адресу:
+
+[https://edu-aleksandr-babynin.yc-sirius-dev.pelid.team/](https://edu-aleksandr-babynin.yc-sirius-dev.pelid.team/)
+
+Облачная инфраструктура:
+
+- Cloud: `sirius-cloud`
+- Folder: `dev`
+- Kubernetes cluster: `yc-sirius-dev`
+- Namespace: `edu-aleksandr-babynin`
+- [Кластер в Yandex Cloud Console](https://console.cloud.yandex.ru/folders/b1gtcctl0mkamhmvoq79/managed-kubernetes/cluster/cato1chddk98dhsru9k3)
+
 ## Что нужно сайту для работы
 
 Окружение `yc-sirius-dev` создаётся и настраивается отдельно от приложения.

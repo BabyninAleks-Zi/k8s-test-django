@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: psql-client
+  namespace: edu-aleksandr-babynin
+  labels:
+    app.kubernetes.io/name: psql-client
+    app.kubernetes.io/part-of: django-site
+spec:
+  restartPolicy: Never
+  containers:
+    - name: ubuntu
+      image: ubuntu:22.04
+      command: ["sleep", "infinity"]
+      envFrom:
+        - secretRef:
+            name: postgres
+      volumeMounts:
+        - name: postgres-root-cert
+          mountPath: /root/.postgresql
+          readOnly: true
+  volumes:
+    - name: postgres-root-cert
+      secret:
+        secretName: postgres-root-cert
+        defaultMode: 0400
+        items:
+          - key: root.crt
+            path: root.crt
